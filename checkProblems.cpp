@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 #ifndef __linux__
-
     #define RESET   "\033[0m"
     #define BLACK   "\033[30m"      /* Black */
     #define RED     "\033[31m"      /* Red */
@@ -20,7 +19,6 @@ using namespace std;
     #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
     #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 #else
-    cout << "Windows!";
     #define RESET   ""
     #define BLACK   ""      /* Black */
     #define RED     ""      /* Red */
