@@ -8,7 +8,7 @@ To use, simply clone the repo. Then run the gen_problems script with a contest n
 
 `bash gen_problems.sh 1772`
 
-This will generate that propblem files corresponding to the indexex from the given contest. Then, it generates the test case in and out files needed to run the check command. To test, here is an example: `./run_samples.sh A`. This runs the samples for problem A against the source file A.cpp.
+This will generate that propblem files corresponding to the indexes from the given contest. Then, it generates the test case in and out files needed to run the check command. To test, here is an example: `./run_samples.sh A`. This runs the samples for problem A against the source file A.cpp.
 
 ## Customization
 
