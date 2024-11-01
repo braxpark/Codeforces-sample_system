@@ -44,30 +44,27 @@ for problem in problems:
 
 testData = []
 
+print(problemIdxs)
+
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
+    "Content-Type": "application/json",
+    "Sec-Ch-Ua": "\"Chromium\";v=\"129\", \" Not A;Brand\";v=\"8\"",
+}
+
 for problemIdx in problemIdxs:
     problemUrl = f"https://codeforces.com/contest/{contest_id}/problem/{problemIdx}"
-    problemHtml = urlopen(url=problemUrl)
-    #problem_parser = Problem()
-    #problem_parser.feed(problemHtml.read().decode())
-    pqParser = pq(url=problemUrl,
-            opener = lambda url, **kw: urlopen(url).read())
-    inputSpec = pqParser('.input-specification').find('p')
-    containsMult = inputSpec.text().__contains__("the number of test cases")
-    sampleTests = pqParser('.sample-tests')
-
-    # what is needed -> From inside each <pre> within .sample-tests
-    #   needed = <pre> -> <div class="input">
-    #   needed = <pre> -> <div class="output">
-    input = sampleTests.find('.input').find('pre')
-    output = sampleTests.find('.output').find('pre')
-    testData.append((problemIdx, (containsMult, input.text(), output.text())))
-
+    print(f"Getting problem {problemIdx} from {problemUrl}")
+    problemHtml = requests.get(url=problemUrl, headers=headers).text
+    doc = pq(problemHtml)
+    iS = doc('.sample-tests').find('.input').find('pre').text()
+    oS = doc('.sample-tests').find('.output').find('pre').text()
+    testData.append(( problemIdx, (oS, iS)))
     sh.copyfile("template.cpp", f"{contest_id}/{problemIdx}.cpp")
 
 for testSet in testData:
     prob_idx = testSet[0]
     inputFile = open(f"{contest_id}/samples/{prob_idx}.in", "w")
     outputFile = open(f"{contest_id}/samples/{prob_idx}.out", "w")
-    inputFile.write(testSet[1][1])
+    inputFile.write(f"{testSet[1][1]}\n")
     outputFile.write(f"{testSet[1][0]}\n")
-    outputFile.write(testSet[1][2])
